@@ -8,15 +8,14 @@ using ToDoList;
 
 namespace ToDoReadWrite
 {
-    public class ReadWriteService
+    public class ReadWriteService : IToDoStorage
     {
         string path;
-
         public ReadWriteService(string path)
         {
             this.path = path;
         }
-        public async Task<List<ToDo>> ReadJsonAsync()
+        public async Task<List<ToDo>> LoadAsync()
         {
             List<ToDo> toDos = new List<ToDo>();
             if (File.Exists(path))
@@ -34,7 +33,7 @@ namespace ToDoReadWrite
             return toDos;
         }
 
-        public async Task WriteJsonAsync(List<ToDo> list)
+        public async Task SaveAsync(List<ToDo> list)
         {
             using (StreamWriter writer = new StreamWriter(path, false))
             {

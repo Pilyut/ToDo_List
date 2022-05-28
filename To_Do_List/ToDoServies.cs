@@ -10,12 +10,18 @@ namespace ToDoList
 {
     public class ToDoService
     {
+        private IToDoStorage _dbcontext;
         private List<ToDo> _TodoList = new List<ToDo>();
-        private ReadWriteService _readWriteService;
+        // Json
+        /*public ToDoService()
+        {
+            _dbcontext = new ReadWriteService(@"C:\Users\1123\Desktop\ToDoList.json");
+        }*/
+        // DataBase
         public ToDoService()
         {
-            _readWriteService = new ReadWriteService(@"C:\Users\1123\Desktop\ToDoList.json");
-        } 
+            _dbcontext = new DataBase();
+        }
         public bool CheckCount(int s)
         {
             if ( _TodoList.Count >=  s)
@@ -41,12 +47,12 @@ namespace ToDoList
         }
         public async void LoadAsync()
         {
-            List<ToDo> list = await _readWriteService.ReadJsonAsync();
+            List<ToDo> list = await _dbcontext.LoadAsync();
             _TodoList.AddRange(list);
         }
         public async void SaveAsync()
         {
-            await _readWriteService.WriteJsonAsync(_TodoList);
+            await _dbcontext.SaveAsync(_TodoList);
         }
         public bool HasElement()
         {
