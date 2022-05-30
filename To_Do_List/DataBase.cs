@@ -12,13 +12,15 @@ namespace ToDoList
         ApplicationContext db = new ApplicationContext();
         public async Task<List<ToDo>> LoadAsync()
         {   
-            var list = await db.Users.ToListAsync();
+            var list = await db.Tasks.ToListAsync();
             return list;
         }
         public async Task SaveAsync(List<ToDo> list)
         {
-            db.Users.RemoveRange();
-            await db.AddAsync(list);
+            db.Tasks.RemoveRange(list);
+            list.ForEach(x => x.Id = default);
+            await db.SaveChangesAsync();
+            await db.AddRangeAsync(list);
             await db.SaveChangesAsync();
         }
     }

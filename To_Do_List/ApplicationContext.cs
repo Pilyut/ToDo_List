@@ -9,12 +9,15 @@ namespace ToDoList
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<ToDo> Users { get; set; } = null!;
-        public string connectionString;
-        public ApplicationContext() => Database.EnsureCreated();
+        public DbSet<ToDo> Tasks { get; set; } = null!;
+        public ApplicationContext()
+        {
+            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=ToDoDataBase.db");
+            optionsBuilder.UseSqlite("Data Source=./../../../ToDoDataBase.db");
         }
     }
 }
