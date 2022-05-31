@@ -17,8 +17,7 @@ namespace ToDoList
         }
         public async Task SaveAsync(List<ToDo> list)
         {
-            db.Tasks.RemoveRange(list);
-            list.ForEach(x => x.Id = default);
+            db.Tasks.RemoveRange(db.Tasks);
             await db.SaveChangesAsync();
             await db.AddRangeAsync(list);
             await db.SaveChangesAsync();

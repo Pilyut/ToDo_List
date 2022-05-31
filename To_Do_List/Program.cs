@@ -18,7 +18,7 @@ while (true)
         Write("\nВыберите действие: ");
         allOk = int.TryParse(Console.ReadLine(), out action);
     }
-    while (allOk == false || action > 4);
+    while (allOk == false || action > 3);
 
     switch (action)
     {
