@@ -15,7 +15,7 @@ namespace ToDoList
         // Json
         /*public ToDoService()
         {
-            _dbcontext = new ReadWriteService(@"C:\Users\1123\Desktop\ToDoList.json");
+            _dbcontext = new ReadWriteService(@"D:\project\To_Do_List\To_Do_List\ToDoList.json");
         }*/
         // DataBase
         public ToDoService()
