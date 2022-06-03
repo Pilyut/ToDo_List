@@ -11,7 +11,7 @@ namespace ToDoList
     {
         ApplicationContext db = new ApplicationContext();
         public async Task<List<ToDo>> LoadAsync()
-        {   
+        {
             var list = await db.Tasks.ToListAsync();
             return list;
         }
