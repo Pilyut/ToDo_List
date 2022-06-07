@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +13,10 @@ namespace ToDoList
         private IToDoStorage _dbcontext;
         private List<ToDo> _TodoList = new List<ToDo>();
         // Json
-        /*public ToDoService()
+        *//*public ToDoService()
         {
             _dbcontext = new ReadWriteService(@"D:\project\To_Do_List\To_Do_List\ToDoList.json");
-        }*/
+        }*//*
         // DataBase
         public OldToDoService()
         {
@@ -59,4 +59,4 @@ namespace ToDoList
             return _TodoList.Any();
         }
     }
-}
+}*/

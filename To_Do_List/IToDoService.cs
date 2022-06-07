@@ -8,10 +8,10 @@ namespace ToDoList
 {
     public interface IToDoService
     {
-        void Add(ToDo list);
-        void Delete(int taskNum);
-        void Update(int taskNum);
-        void MarkComtleted(int taskNum);
+        Task Add(ToDo list);
+        Task Delete(int taskNum);
+        Task Update(int taskNum, string str);
+        Task MarkComtleted(int taskNum);
         Task<List<ToDo>> GetAllAsync();
     }
 }

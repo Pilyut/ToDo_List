@@ -1,23 +1,23 @@
 ﻿using static System.Console;
 using System.Text.Json;
 using ToDoList;
-using ToDoReadWrite;
+//using ToDoReadWrite;
 
 ToDoService service = new ToDoService();
-service.GetAllAsync();
+await service.GetAllAsync();
 
 while (true)
 {
     int action;
     bool allOk;
-    Display();
+    await Display();
     WriteLine(" 1 -- Добавить задачу в список \n 2 -- Удалить задачу из списка \n 3 -- Отметить задачу выполненной \n 4 -- Изменить задачу \n 0 -- Завершить работу");
     do
     {
         Write("\nВыберите действие: ");
         allOk = int.TryParse(Console.ReadLine(), out action);
     }
-    while (allOk == false || action > 3);
+    while (allOk == false || action > 4);
 
     switch (action)
     {
@@ -25,38 +25,38 @@ while (true)
             ExitProgramAsync();
             break;
         case 1:
-            Add();
+            await Add();
             break;
         case 2:
-            Delete();
+            await Delete();
             break;
         case 3:
-            MarkComtleted();
+            await MarkComtleted();
             break;
         case 4:
-            Update();
+            await Update();
             break;
     }
 
 }
 
-void Add()
+async Task Add()
 {
     Write("\nВведите задачу: ");
     string? str = ReadLine();
     ToDo newToDo = new ToDo { Task = str, Status = false };
-    service.Add(newToDo);
+    await service.Add(newToDo);
     Clear();
     WriteLine("\nЗадача успешно добавлена!\n");
 }
 
-void Delete()
+async Task Delete()
 {
     if (service.HasElement())
     {
-        int taskNum = 0;
+        int taskNum = 0; 
         taskNum = Checked("\nВыберите задачу которую нужно удалить: ");
-        service.Delete(taskNum);
+        await service.Delete(taskNum);
         Clear();
         WriteLine("\nЗадача успешно удалена!\n");
     }
@@ -67,18 +67,32 @@ void Delete()
     }
 }
 
-void Update()
+async Task Update()
 {
-
+    if (service.HasElement())
+    {
+        int taskNum = 0;
+        taskNum = Checked("\nВыберите задачу которую нужно изменить ");
+        Write("\nВведите задачу: ");
+        string? str = Console.ReadLine();
+        await service.Update(taskNum, str);
+        Clear();
+        WriteLine("\nЗадача изменена!\n");
+    }
+    else
+    {
+        Clear();
+        return;
+    }
 }
 
-void MarkComtleted()
+async Task MarkComtleted()
 {
     if (service.HasElement())
     {
         int taskNum = 0;
         taskNum = Checked("\nВыберите задачу которую нужно отметить: ");
-        service.MarkComtleted(taskNum);
+        await service.MarkComtleted(taskNum);
         Clear();
         WriteLine("\nЗадача отмечена!\n");
     }
@@ -89,7 +103,7 @@ void MarkComtleted()
     }
 }
 
-async void Display()
+async Task Display()
 {
     
     WriteLine("Список задач:\n");
