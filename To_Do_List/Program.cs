@@ -3,8 +3,12 @@ using System.Text.Json;
 using ToDoList;
 //using ToDoReadWrite;
 
-ToDoService service = new ToDoService();
+ApplicationContext database = new ApplicationContext();
+List<ToDo> list = new List<ToDo>();
+
+ToDoService service = new ToDoService(database);
 await service.GetAllAsync();
+
 
 while (true)
 {
@@ -22,7 +26,7 @@ while (true)
     switch (action)
     {
         case 0:
-            ExitProgramAsync();
+            ExitProgram();
             break;
         case 1:
             await Add();
@@ -54,9 +58,8 @@ async Task Delete()
 {
     if (service.HasElement())
     {
-        int taskNum = 0; 
-        taskNum = Checked("\nВыберите задачу которую нужно удалить: ");
-        await service.Delete(taskNum);
+        int taskId = Checked("\nВыберите задачу которую нужно удалить: ");
+        await service.Delete(taskId);
         Clear();
         WriteLine("\nЗадача успешно удалена!\n");
     }
@@ -71,11 +74,10 @@ async Task Update()
 {
     if (service.HasElement())
     {
-        int taskNum = 0;
-        taskNum = Checked("\nВыберите задачу которую нужно изменить ");
+        int taskId = Checked("\nВыберите задачу которую нужно изменить ");
         Write("\nВведите задачу: ");
         string? str = Console.ReadLine();
-        await service.Update(taskNum, str);
+        await service.Update(taskId, str);
         Clear();
         WriteLine("\nЗадача изменена!\n");
     }
@@ -90,9 +92,8 @@ async Task MarkComtleted()
 {
     if (service.HasElement())
     {
-        int taskNum = 0;
-        taskNum = Checked("\nВыберите задачу которую нужно отметить: ");
-        await service.MarkComtleted(taskNum);
+        int taskId = Checked("\nВыберите задачу которую нужно отметить: ");
+        await service.MarkComplete(taskId);
         Clear();
         WriteLine("\nЗадача отмечена!\n");
     }
@@ -107,7 +108,7 @@ async Task Display()
 {
     
     WriteLine("Список задач:\n");
-    List<ToDo> list = await service.GetAllAsync();
+    list = await service.GetAllAsync();
     for (var j = 0; j < list.Count; j++)
     {
         if (list[j].Status == false)
@@ -134,12 +135,11 @@ int Checked(string str)
         allOk = int.TryParse(Console.ReadLine(), out s);
     }
     while (!allOk || !service.CheckCount(s) || s <= 0);
-    return s;
+    return (int)list[s - 1].Id;
 }
 
-void ExitProgramAsync()
+void ExitProgram()
 {
     WriteLine("===================\nПрограмма завершена\n===================");
     Environment.Exit(0);
 }
-

@@ -9,46 +9,62 @@ namespace ToDoList
 {
     public class ToDoService : IToDoService
     {
-        ApplicationContext db = new ApplicationContext();
+        private readonly ApplicationContext _database;
+        public ToDoService(ApplicationContext database)
+        {
+            _database = database;
+        }
         public async Task Add(ToDo list)
         {
-            await db.Tasks.AddAsync(list);
-            await db.SaveChangesAsync();
+            await _database.Tasks.AddAsync(list);
+            await _database.SaveChangesAsync();
         }
-        public async Task Delete(int taskNum)
+        public async Task Delete(int taskId)
         {
-            ToDo? number = await db.Tasks.FirstOrDefaultAsync(x => x.Id == taskNum);
-            db.Tasks.Remove(number);
-            await db.SaveChangesAsync();
+            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
+
+            if (task == null)
+            {
+                throw new Exception("Delete don't work nahui bl9tb");
+            }
+            _database.Tasks.Remove(task);
+            await _database.SaveChangesAsync();
         }
-        public async Task Update(int taskNum, string str)
+        public async Task Update(int taskId, string str)
         {
-            ToDo? number = await db.Tasks.FirstOrDefaultAsync(x => x.Id == taskNum);
-            number.Task = str;
-            db.Tasks.Update(number);
-            await db.SaveChangesAsync();
+            var task = await _database.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
+
+            if (task == null)
+            {
+                throw new Exception("Update don't work nahui bl9tb");
+            }
+            task.Task = str;
+            task.Status = false;
+            _database.Tasks.Update(task);
+            await _database.SaveChangesAsync();
         }
-        public async Task MarkComtleted(int taskNum)
+        public async Task MarkComplete(int taskId)
         {
-            var number = await db.Tasks.FindAsync(taskNum);
-            number.Status = true;
-            await db.SaveChangesAsync();
+            var task = await _database.Tasks.FindAsync(taskId);
+
+            if (task == null)
+            {
+                throw new Exception("Mark don't work nahui bl9tb");
+            }
+            task.Status = true;
+            await _database.SaveChangesAsync();
         }
         public async Task<List<ToDo>> GetAllAsync()
         {
-            var list = await db.Tasks.ToListAsync();
-            return list;
+            return await _database.Tasks.ToListAsync();
         }
         public bool HasElement()
         {
-            return db.Tasks.Any();
+            return _database.Tasks.Any();
         }
         public bool CheckCount(int s)
         {
-            if (db.Tasks.Count() >= s)
-                return true;
-            else
-                return false;
+            return _database.Tasks.Count() >= s;
         }
     }
 }

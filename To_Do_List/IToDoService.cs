@@ -11,7 +11,7 @@ namespace ToDoList
         Task Add(ToDo list);
         Task Delete(int taskNum);
         Task Update(int taskNum, string str);
-        Task MarkComtleted(int taskNum);
+        Task MarkComplete(int taskNum);
         Task<List<ToDo>> GetAllAsync();
     }
 }
