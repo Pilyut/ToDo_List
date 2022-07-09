@@ -9,7 +9,6 @@ List<ToDo> list = new List<ToDo>();
 ToDoService service = new ToDoService(database);
 await service.GetAllAsync();
 
-
 while (true)
 {
     int action;
@@ -65,7 +64,7 @@ async Task Delete()
     }
     else
     {
-        Clear();
+        EmptyList();
         return;
     }
 }
@@ -83,7 +82,7 @@ async Task Update()
     }
     else
     {
-        Clear();
+        EmptyList();
         return;
     }
 }
@@ -99,7 +98,7 @@ async Task MarkComtleted()
     }
     else
     {
-        Clear();
+        EmptyList();
         return;
     }
 }
@@ -142,4 +141,12 @@ void ExitProgram()
 {
     WriteLine("===================\nПрограмма завершена\n===================");
     Environment.Exit(0);
+}
+
+void EmptyList()
+{
+    Clear();
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("\n--========-- Список пуст --========--\n");
+    Console.ResetColor();
 }

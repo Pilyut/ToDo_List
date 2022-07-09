@@ -25,7 +25,7 @@ namespace ToDoList
 
             if (task == null)
             {
-                throw new Exception("Delete don't work nahui bl9tb");
+                throw new Exception("Delete don't work");
             }
             _database.Tasks.Remove(task);
             await _database.SaveChangesAsync();
@@ -36,7 +36,7 @@ namespace ToDoList
 
             if (task == null)
             {
-                throw new Exception("Update don't work nahui bl9tb");
+                throw new Exception("Update don't work");
             }
             task.Task = str;
             task.Status = false;
@@ -49,7 +49,7 @@ namespace ToDoList
 
             if (task == null)
             {
-                throw new Exception("Mark don't work nahui bl9tb");
+                throw new Exception("Mark don't work");
             }
             task.Status = true;
             await _database.SaveChangesAsync();
